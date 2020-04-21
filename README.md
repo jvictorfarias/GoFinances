@@ -1,4 +1,4 @@
-<img alt="GoFinances" src="../img/appHeader.png" />
+<img alt="GoFinances" src="./img/appHeader.png" />
 
 <div align="center">
 
@@ -11,9 +11,12 @@
 
 
 
-## :rocket: Backend do app
+## :rocket: Sobre a aplicação
 
 {...}
 
+### :memo: Licença
+
+This project é desenvolvido sob a licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para saber mais detalhes.
 
 <p align="center" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">Feito com ❤️ by <strong> Joao Victor Farias </p>

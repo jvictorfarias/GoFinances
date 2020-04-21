@@ -11,7 +11,7 @@
 
 
 
-## :rocket: Backend do app
+## :rocket: Frontend do app
 
 {...}
 
