@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { FiChevronDown } from 'react-icons/fi';
 import income from '../../assets/income.svg';
@@ -43,13 +43,51 @@ interface Accountability {
 }
 
 interface SortType {
-  filter: 'name' | 'value' | 'category' | 'date';
+  filter: 'title' | 'value' | 'category' | 'date';
 }
 
 const Dashboard: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [balance, setBalance] = useState<Balance>({} as Balance);
-  const [sortFilter, setSortFilter] = useState<SortType>({ filter: 'name' });
+  const [sortFilter, setSortFilter] = useState<SortType>({ filter: 'title' });
+
+  const sortTransactionsList = useCallback(
+    ({ filter }: SortType, unsortedTransactions: Transaction[]) => {
+      let sortedTransactions: Transaction[];
+      if (filter === 'title') {
+        sortedTransactions = unsortedTransactions.sort((a, b) => {
+          if (a.title > b.title) return 1;
+          if (a.title < b.title) return -1;
+
+          return 0;
+        });
+      } else if (filter === 'value') {
+        sortedTransactions = unsortedTransactions.sort((a, b) => {
+          if (a.value > b.value) return 1;
+          if (a.value < b.value) return -1;
+
+          return 0;
+        });
+      } else if (filter === 'category') {
+        sortedTransactions = unsortedTransactions.sort((a, b) => {
+          if (a.category > b.category) return 1;
+          if (a.category < b.category) return -1;
+
+          return 0;
+        });
+      } else {
+        sortedTransactions = unsortedTransactions.sort((a, b) => {
+          if (a.created_at > b.created_at) return 1;
+          if (a.created_at < b.created_at) return -1;
+
+          return 0;
+        });
+      }
+
+      setTransactions((state) => [...state, ...sortedTransactions]);
+    },
+    [],
+  );
 
   useEffect(() => {
     async function loadTransactions(): Promise<void> {
@@ -67,12 +105,12 @@ const Dashboard: React.FC = () => {
         total: formatValue(Number(data.balance.total)),
       };
 
-      setTransactions((state) => [...state, ...parsedTransactions]);
+      sortTransactionsList({ ...sortFilter }, parsedTransactions);
       setBalance(parsedBalance);
     }
 
     loadTransactions();
-  }, []);
+  }, [sortTransactionsList, sortFilter]);
 
   return (
     <>
