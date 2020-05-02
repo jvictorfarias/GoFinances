@@ -61,6 +61,10 @@ export const TableContainer = styled.section`
       text-align: left;
       font-size: 16px;
       line-height: 24px;
+
+      &:first-child {
+        margin-left: 460px;
+      }
     }
 
     td {
@@ -91,5 +95,16 @@ export const TableContainer = styled.section`
     td:last-child {
       border-radius: 0 8px 8px 0;
     }
+  }
+`;
+
+export const SortButton = styled.button`
+  background: transparent;
+  margin-left: 12px;
+  border: 0;
+
+  svg {
+    padding-top: 16px;
+    color: #969cb3;
   }
 `;

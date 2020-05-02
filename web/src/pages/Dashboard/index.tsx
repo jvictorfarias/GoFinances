@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { FiChevronDown } from 'react-icons/fi';
 import income from '../../assets/income.svg';
 import outcome from '../../assets/outcome.svg';
 import total from '../../assets/total.svg';
@@ -11,7 +12,13 @@ import Header from '../../components/Header';
 import formatValue from '../../utils/formatValue';
 import formatDate from '../../utils/formatDate';
 
-import { Container, CardContainer, Card, TableContainer } from './styles';
+import {
+  Container,
+  CardContainer,
+  Card,
+  TableContainer,
+  SortButton,
+} from './styles';
 
 interface Transaction {
   id: string;
@@ -35,9 +42,14 @@ interface Accountability {
   balance: Balance;
 }
 
+interface SortType {
+  filter: 'name' | 'value' | 'category' | 'date';
+}
+
 const Dashboard: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [balance, setBalance] = useState<Balance>({} as Balance);
+  const [sortFilter, setSortFilter] = useState<SortType>({ filter: 'name' });
 
   useEffect(() => {
     async function loadTransactions(): Promise<void> {
@@ -55,17 +67,16 @@ const Dashboard: React.FC = () => {
         total: formatValue(Number(data.balance.total)),
       };
 
-      setTransactions([...transactions, ...parsedTransactions]);
+      setTransactions((state) => [...state, ...parsedTransactions]);
       setBalance(parsedBalance);
     }
 
     loadTransactions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <Header />
+      <Header focus="Dashboard" />
       <Container>
         <CardContainer>
           <Card>
@@ -95,10 +106,31 @@ const Dashboard: React.FC = () => {
           <table>
             <thead>
               <tr>
-                <th>Título</th>
-                <th>Preço</th>
-                <th>Categoria</th>
-                <th>Data</th>
+                <th>
+                  Título
+                  <SortButton>
+                    <FiChevronDown size={30} />
+                  </SortButton>
+                </th>
+
+                <th>
+                  Preço
+                  <SortButton>
+                    <FiChevronDown size={30} />
+                  </SortButton>
+                </th>
+                <th>
+                  Categoria
+                  <SortButton>
+                    <FiChevronDown size={30} />
+                  </SortButton>
+                </th>
+                <th>
+                  Data
+                  <SortButton>
+                    <FiChevronDown size={30} />
+                  </SortButton>
+                </th>
               </tr>
             </thead>
             <tbody>

@@ -32,25 +32,24 @@ const Import: React.FC = () => {
       setUploadedFiles([]);
       history.push('/');
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err.response.error);
     }
   }
 
   function submitFile(files: File[]): void {
-    const importedFiles: FileProps[] = files.map((file) => {
-      return {
-        file,
-        name: file.name,
-        readableSize: filesize(file.size, { output: 'string' }),
-      };
-    });
+    const importedFiles: FileProps[] = files.map((file) => ({
+      file,
+      name: file.name,
+      readableSize: filesize(file.size, { output: 'string' }),
+    }));
 
     setUploadedFiles([...uploadedFiles, ...importedFiles]);
   }
 
   return (
     <>
-      <Header size="small" />
+      <Header size="small" focus="Import" />
       <Container>
         <Title>Importar uma transação</Title>
         <ImportFileContainer>
